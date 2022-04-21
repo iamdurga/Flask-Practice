@@ -1,4 +1,4 @@
-from flask import Flask, make_response
+from flask import Flask, make_response, request
 import pandas as pd
 
 app = Flask(__name__)
@@ -15,11 +15,14 @@ def user(name):
 def titanic():
     df = pd.read_csv("data/titanic.csv")
     return "<h1 align= 'center'> Below Table is Titanic Dataset</h1>" + df.to_html()
-@app.route("/cookie")
-def cookie():
-    res = make_response("Setting my cookie")
-    res.set_cookie("visits","1", max_age=60*60*24)
-    return res.get_data()
+
+@app.route('/visit_counts', methods=['GET','POST'])  
+def visit():
+    counts=request.cookies.get('visits', "1")
+    resp = make_response(f"<h1 align='center'>You visited {int(vc)} times.</h1>")
+    vscount=int(vc)+1
+    resp.set_cookie('visits',str(vscount), max_age=5*60*60)
+    return resp
 
 if __name__== "__main__":
     app.run(debug=True)
