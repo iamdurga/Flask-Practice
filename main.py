@@ -19,8 +19,8 @@ def titanic():
 @app.route('/visit_counts', methods=['GET','POST'])  
 def visit():
     counts=request.cookies.get('visits', "1")
-    resp = make_response(f"<h1 align='center'>You visited {int(vc)} times.</h1>")
-    vscount=int(vc)+1
+    resp = make_response(f"<h1 align='center'>You visited {int(counts)} times.</h1>")
+    vscount=int(counts)+1
     resp.set_cookie('visits',str(vscount), max_age=5*60*60)
     return resp
 
